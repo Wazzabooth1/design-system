@@ -48,7 +48,8 @@ sync_one() {  # dest category app
   # Cache-bust: stamp the version onto /ds/ CSS and JS links in the app's HTML, so Cloudflare
   # and browsers fetch the new files straight after a sync instead of serving a cached copy.
   local v; v=$(cut -c1-7 "$dest/ds/VERSION")
-  find "$dest" -maxdepth 3 -name '*.html' -not -path "$dest/ds/*" -print0 2>/dev/null |
+  local roots=("$dest"); [ -d "$(dirname "$dest")/templates" ] && roots+=("$(dirname "$dest")/templates")  # Flask-style apps
+  find "${roots[@]}" -maxdepth 3 -name '*.html' -not -path "$dest/ds/*" -print0 2>/dev/null |
     xargs -0 -r sed -i -E "s#(/ds/[A-Za-z0-9_./-]+\.(css|js))(\?v=[A-Za-z0-9]*)?#\1?v=$v#g"
   echo "$(date '+%F %T') ${app:-app} -> $dest/ds ($(cut -c1-7 "$dest/ds/VERSION"))"
 }
