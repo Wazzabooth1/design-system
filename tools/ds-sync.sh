@@ -45,6 +45,11 @@ sync_one() {  # dest category app
   if [ -n "$app" ] && [ -d "$CACHE/brand/$app" ]; then cp -r "$CACHE/brand/$app" "$dest/ds/brand"; fi
   git -C "$CACHE" log -1 --format='%h %cs %s' > "$dest/ds/VERSION"
   echo "$cat" > "$dest/ds/CATEGORY"
+  # Cache-bust: stamp the version onto /ds/ CSS and JS links in the app's HTML, so Cloudflare
+  # and browsers fetch the new files straight after a sync instead of serving a cached copy.
+  local v; v=$(cut -c1-7 "$dest/ds/VERSION")
+  find "$dest" -maxdepth 3 -name '*.html' -not -path "$dest/ds/*" -print0 2>/dev/null |
+    xargs -0 -r sed -i -E "s#(/ds/[A-Za-z0-9_./-]+\.(css|js))(\?v=[A-Za-z0-9]*)?#\1?v=$v#g"
   echo "$(date '+%F %T') ${app:-app} -> $dest/ds ($(cut -c1-7 "$dest/ds/VERSION"))"
 }
 
