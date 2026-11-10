@@ -50,7 +50,9 @@ code, .mono { font-family: var(--mono); font-size: 0.9em; }
   backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);
 }
 .topbar .spacer { flex: 1; }
-.content { padding: var(--s5); max-width: 1280px; width: 100%; }
+.content { padding: var(--s5); width: 100%; }
+/* Opt-in cap for text-heavy pages (settings forms, docs). Default is full width. */
+.content.content-narrow { max-width: 1280px; }
 
 .bottom-nav { display: none; }
 @media (max-width: 760px) {
