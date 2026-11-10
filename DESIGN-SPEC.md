@@ -11,8 +11,8 @@ The shared look and feel for Warren's self-hosted apps. Every new app follows th
 3. **One way to do each thing.** One button per role, one badge per status, one empty state. No page-specific one-offs.
 4. **Phone width is a real target.** Everything works at 375px with no sideways scroll. The sidebar becomes a bottom nav under 760px.
 5. **Use the whole screen.** `.content` fills the width beside the sidebar on any monitor — no centred or left-parked column. Lists, grids and side panels stretch; only add `.content-narrow` for text-heavy pages like settings forms.
-5. **Calm motion.** 150ms fades. Nothing bounces. Live data updates in place.
-6. **Plain words.** UK English, sentence case, say what happened ("Tower has less than 100 GB free"), not "Error 507".
+6. **Calm motion.** 150ms fades. Nothing bounces. Live data updates in place.
+7. **Plain words.** UK English, sentence case, say what happened ("Tower has less than 100 GB free"), not "Error 507".
 
 ## 2. What's in the repo
 
