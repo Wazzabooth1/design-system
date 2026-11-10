@@ -2,7 +2,7 @@
 
 The shared look and feel for Warren's self-hosted apps. Every new app follows this. Existing apps move to it when they're next given UI work.
 
-> **For Claude:** read this file before building or changing any UI in one of Warren's apps. Use the files in this repo rather than re-creating them, and never edit an app's copy under `ds/`. Change the repo and run `ds-sync.sh` instead. Section 9 is the checklist.
+> **For Claude:** read this file before building or changing any UI in one of Warren's apps. Use the files in this repo rather than re-creating them, and never edit an app's copy under `ds/`. Change the repo and run `ds-sync.sh` instead. Section 13 is the checklist.
 
 ## 1. Principles
 
@@ -17,12 +17,18 @@ The shared look and feel for Warren's self-hosted apps. Every new app follows th
 
 | Path | What it is |
 |---|---|
-| `css/tokens.css` | Colours, type, spacing, radii, shadows. Category and theme switching. |
-| `css/components.css` | Base styles, the app shell and every component. |
-| `js/ds.js` | Theme switch (`dsTheme`), toasts (`dsToast`), icon helper (`dsIcon`). No dependencies. |
+| `css/tokens.css` | Colours, type, spacing, radii, chart colours, the self-hosted Inter font. Category, theme and mode switching. |
+| `css/components.css` | Base styles, the app shell, every component, the app switcher, wall/TV mode and control tiles. |
+| `js/ds.js` | Theme (`dsTheme`), mode (`dsMode`), toasts (`dsToast`), icons (`dsIcon`), the app switcher. No dependencies. |
+| `js/chart-palette.js` | `dsChart()`: chart colours read live from the tokens, for any charting library. |
 | `glyphs/icons.svg` | All glyphs as one sprite. |
-| `preview.html` | Every component on one page, with category and theme switches. Open it to check a change. |
-| `tools/ds-sync.sh` | Copies the system into an app's static folder. |
+| `fonts/` | Inter (variable weight). Apps never load Google Fonts. |
+| `apps.json` | Every homelab app: name, URL, category, glyph. Feeds the app switcher and the icon generator. |
+| `brand/<app>/` | Each app's home screen icons and web app manifest (made by `tools/make-icons.py`). |
+| `templates/` | `starter.html` (a new app's first page, everything wired up) and `CLAUDE.md` (drop into a new app's repo). |
+| `preview.html` | Every component on one page, with category, theme and mode switches. |
+| `tools/ds-sync.sh` | Installs into an app, syncs it, and runs nightly. |
+| `tools/switchboard/` | The patch that adds the Design system page to Switchboard. |
 
 ## 3. Categories
 
@@ -72,31 +78,41 @@ Only one `.btn-primary` per view: the main thing the page is for.
 
 Stroke icons on a 24px grid, `currentColor`. Sizes: `.icon.sm` 14px, default 18px, `.icon.lg` 22px. Add new glyphs to the sprite in this repo, never inline in an app.
 
-## 8. Using it in an app
+## 8. App switcher
+
+Put `<div data-ds-switcher></div>` in the top bar and `data-app="<app id>"` on `<html>`. It reads `apps.json` (synced into `ds/`) and shows every app grouped by category, with the current one highlighted. When an app is built, add it to `apps.json` and run `python3 tools/make-icons.py <app id>`.
+
+## 9. Wall and TV mode
+
+`<html data-mode="wall">` for touch panels (iPad frame, magic mirror) and `data-mode="tv"` for across-the-room screens (the LG TV dashboard). Or open any app with `?mode=wall` / `?mode=tv` (remembered on that device; `?mode=normal` clears it). Modes scale the whole type and spacing scale, hide the sidebar and bottom nav, grow buttons to 56px and give TV a heavy focus ring for the remote. Use `.tile-grid` + `button.tile[aria-pressed]` for big square controls (lights, scenes, appliances).
+
+## 10. Charts
+
+Use `dsChart().series` in fixed order: series 1 is always the same entity, and a filter that hides one never repaints the rest. Six series at most; the rest fold into "Other" or small multiples. Never two y-axes. Text on charts uses `--text`/`--muted`, never a series colour. In light mode three of the colours sit under 3:1 on white, so charts always carry direct labels or a table view. Status colours are for status, not series.
+
+## 11. Icons and installing to a phone
+
+`tools/make-icons.py` draws each app's glyph on its category colour (the same family look as the links page) and writes PNGs plus a manifest. `templates/starter.html` has the head tags that make an app open full screen from the home screen.
+
+## 12. Using it in an app
+
+Register once. This syncs now, adds the app to `/etc/ds-sync.d/` and installs a nightly job (19:43) that pulls changes:
 
 ```bash
-ds-sync.sh /opt/<app>/static media
+curl -fsSL https://raw.githubusercontent.com/Wazzabooth1/design-system/main/tools/ds-sync.sh \
+  | bash -s -- --install /opt/<app>/static <category> <app id>
 ```
 
-```html
-<html lang="en-GB" data-category="media">
-<head>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/ds/css/tokens.css">
-  <link rel="stylesheet" href="/static/ds/css/components.css">
-  <script>window.DS_ICONS = '/static/ds/glyphs/icons.svg';</script>
-  <script src="/static/ds/js/ds.js"></script>
-</head>
-```
+Then start from `templates/starter.html` and copy `templates/CLAUDE.md` into the app. App-specific CSS goes in the app's own stylesheet, after the system's, and uses tokens (`var(--surface)`, `var(--s4)`) rather than raw values. Switchboard's **Design system** page lists every registered app, shows which are behind the repo, and updates them on demand.
 
-App-specific CSS goes in the app's own stylesheet, loaded after these, and uses the tokens (`var(--surface)`, `var(--s4)`) rather than raw values.
+## 13. Checklist before shipping a screen
 
-## 9. Checklist before shipping a screen
-
-- [ ] `data-category` set on `<html>`
+- [ ] Registered with `ds-sync --install`, and listed in `apps.json`
+- [ ] `data-category` and `data-app` set on `<html>`; app switcher in the top bar
 - [ ] Looks right in dark **and** light
 - [ ] Works at 375px with no sideways scroll; bottom nav shows on phones
-- [ ] Only tokens, no hard-coded colours or spacing
+- [ ] Still usable with `?mode=wall` if it'll ever be on a panel
+- [ ] Only tokens, no hard-coded colours, spacing or fonts
 - [ ] One primary button per view
 - [ ] Status shown with badges, not coloured text
 - [ ] Empty, loading and error states all exist

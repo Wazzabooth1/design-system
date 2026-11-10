@@ -1,0 +1,56 @@
+<!doctype html>
+<!-- Starter page for a new Booth homelab app. Replace APP_NAME, the category and app id, and the nav.
+     Assumes ds-sync put the system at /static/ds (change the paths if the static dir is served elsewhere). -->
+<html lang="en-GB" data-category="media" data-app="app-id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>APP_NAME</title>
+
+  <!-- Home screen and tab icons (made by tools/make-icons.py, synced into ds/brand) -->
+  <link rel="icon" type="image/png" href="/static/ds/brand/favicon-32.png">
+  <link rel="apple-touch-icon" href="/static/ds/brand/apple-touch-icon.png">
+  <link rel="manifest" href="/static/ds/brand/manifest.webmanifest">
+  <meta name="theme-color" content="#14161a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="APP_NAME">
+
+  <link rel="stylesheet" href="/static/ds/css/tokens.css">
+  <link rel="stylesheet" href="/static/ds/css/components.css">
+  <script src="/static/ds/js/ds.js"></script>
+  <!-- <script src="/static/ds/js/chart-palette.js"></script>  only if the app draws charts -->
+  <!-- <link rel="stylesheet" href="/static/app.css">        app-specific styles go after the system -->
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><img src="/static/ds/brand/icon.svg" alt="" width="30" height="30" style="border-radius:8px"><span>APP_NAME</span></div>
+    <a class="nav-link" aria-current="page" href="/"><svg class="icon"><use href="/static/ds/glyphs/icons.svg#home"/></svg>Home</a>
+    <a class="nav-link" href="/settings"><svg class="icon"><use href="/static/ds/glyphs/icons.svg#settings"/></svg>Settings</a>
+  </aside>
+  <div class="main">
+    <header class="topbar">
+      <strong>Home</strong>
+      <div class="spacer"></div>
+      <div data-ds-switcher></div>
+      <button class="btn btn-ghost btn-icon" aria-label="Switch theme" onclick="dsTheme.toggle()"><svg class="icon"><use href="/static/ds/glyphs/icons.svg#moon"/></svg></button>
+    </header>
+    <main class="content">
+      <div class="page-header"><div><h1>Home</h1><p>What this page is for, in one line.</p></div></div>
+      <div class="card empty">
+        <svg class="icon"><use href="/static/ds/glyphs/icons.svg#plus"/></svg>
+        <h3>Nothing here yet</h3>
+        <p>Say what will appear here and how to add the first one.</p>
+        <button class="btn btn-primary">Add the first one</button>
+      </div>
+    </main>
+    <nav class="bottom-nav">
+      <a aria-current="page" href="/"><svg class="icon"><use href="/static/ds/glyphs/icons.svg#home"/></svg>Home</a>
+      <a href="/settings"><svg class="icon"><use href="/static/ds/glyphs/icons.svg#settings"/></svg>Settings</a>
+    </nav>
+  </div>
+</div>
+</body>
+</html>

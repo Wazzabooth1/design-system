@@ -1,15 +1,14 @@
 <!doctype html>
-<html lang="en-GB" data-category="media">
+<html lang="en-GB" data-category="media" data-app="overseerr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Booth Design System</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/components.css">
-<script>window.DS_ICONS = 'glyphs/icons.svg';</script>
+<script>window.DS_BASE = '.';</script>
 <script src="js/ds.js"></script>
+<script src="js/chart-palette.js"></script>
 <style>
   .swatch { display:flex; flex-direction:column; gap:6px; }
   .swatch i { display:block; height:56px; border-radius:var(--r); border:1px solid var(--border); }
@@ -42,6 +41,8 @@
     <header class="topbar">
       <strong>Design system</strong>
       <div class="spacer"></div>
+      <button class="btn btn-ghost btn-icon" id="mode" aria-label="Cycle wall and TV mode"><svg class="icon"><use href="glyphs/icons.svg#maximize"/></svg></button>
+      <div data-ds-switcher></div>
       <button class="btn btn-ghost btn-icon" id="theme" aria-label="Switch theme"><svg class="icon"><use href="glyphs/icons.svg#moon"/></svg></button>
     </header>
 
@@ -139,6 +140,15 @@
         <div class="card empty"><svg class="icon"><use href="glyphs/icons.svg#search"/></svg><h3>Nothing found</h3><p>Try a different spelling, or search YouTube instead.</p><button class="btn btn-primary" onclick="dsToast('Added to your requests','ok')">Show a toast</button></div>
       </div>
 
+      <h2 class="section-h">Control tiles</h2>
+      <p class="muted" style="margin:-4px 0 var(--s3)">For wall panels and the TV. Tap to toggle. Try the expand button in the top bar for wall and TV mode.</p>
+      <div class="tile-grid" id="tiles">
+        <button class="tile" aria-pressed="true"><svg class="icon"><use href="glyphs/icons.svg#bulb"/></svg><div><div class="tile-name">Living room</div><div class="tile-state">On · 80%</div></div></button>
+        <button class="tile" aria-pressed="false"><svg class="icon"><use href="glyphs/icons.svg#bulb"/></svg><div><div class="tile-name">Kitchen</div><div class="tile-state">Off</div></div></button>
+        <button class="tile" aria-pressed="false"><svg class="icon"><use href="glyphs/icons.svg#tv"/></svg><div><div class="tile-name">Front room TV</div><div class="tile-state">Off</div></div></button>
+        <button class="tile" aria-pressed="true"><svg class="icon"><use href="glyphs/icons.svg#refresh"/></svg><div><div class="tile-name">Washing machine</div><div class="tile-state">Spin · 12 min left</div></div></button>
+      </div>
+
       <h2 class="section-h">Colour</h2>
       <div class="grid-stats">
         <div class="swatch"><i style="background:var(--cat-media)"></i><b>Media</b><span>#F5B82E</span></div>
@@ -148,6 +158,8 @@
         <div class="swatch"><i style="background:var(--cat-dev)"></i><b>Dev</b><span>#EC4899</span></div>
         <div class="swatch"><i style="background:var(--cat-tools)"></i><b>Tools</b><span>#14B8A6</span></div>
       </div>
+      <h3 style="margin:var(--s5) 0 var(--s3)">Chart series, in fixed order</h3>
+      <div class="grid-stats" id="chartsw"></div>
 
       <h2 class="section-h">Glyphs</h2>
       <div class="glyphs" id="glyphs"></div>
@@ -171,9 +183,21 @@
   });
   document.getElementById('theme').addEventListener('click', function () {
     var t = dsTheme.toggle();
-    this.querySelector('use').setAttribute('href', DS_ICONS + '#' + (t === 'dark' ? 'moon' : 'sun'));
+    this.querySelector('use').setAttribute('href', 'glyphs/icons.svg#' + (t === 'dark' ? 'moon' : 'sun'));
   });
-  var names = ['home','search','settings','film','tv','music','book','headphones','download','server','network','activity','cpu','disk','thermo','bulb','user','users','bell','plus','x','check','check-circle','alert','info','x-circle','refresh','trash','edit','more','chevron-right','chevron-down','external','play','pause','sun','moon','clock','menu'];
+  document.getElementById('tiles').addEventListener('click', function (e) {
+    var t = e.target.closest('.tile'); if (!t) return;
+    var on = t.getAttribute('aria-pressed') !== 'true'; t.setAttribute('aria-pressed', on);
+    var st = t.querySelector('.tile-state'); if (/Off|On/.test(st.textContent)) st.textContent = on ? 'On' : 'Off';
+  });
+  var modes = [null, 'wall', 'tv'];
+  document.getElementById('mode').addEventListener('click', function () {
+    var next = modes[(modes.indexOf(dsMode.get()) + 1) % modes.length]; dsMode.set(next);
+    dsToast(next ? (next === 'tv' ? 'TV mode' : 'Wall mode') : 'Normal mode', 'info', 1800);
+  });
+  var names = ['home','search','settings','film','tv','music','book','headphones','download','server','network','activity','cpu','disk','thermo','bulb','user','users','bell','plus','x','check','check-circle','alert','info','x-circle','refresh','trash','edit','more','chevron-right','chevron-down','external','play','pause','sun','moon','clock','menu','grid','maximize','wine','list','image','shield','key','globe','gamepad','wallet','pin','cart'];
+  var cs = ['Series 1','Series 2','Series 3','Series 4','Series 5','Series 6'];
+  document.getElementById('chartsw').innerHTML = cs.map(function (n, i) { return '<div class="swatch"><i style="background:var(--chart-' + (i + 1) + ')"></i><b>' + n + '</b><span>--chart-' + (i + 1) + '</span></div>'; }).join('');
   document.getElementById('glyphs').innerHTML = names.map(function (n) { return '<div>' + dsIcon(n, 'lg') + n + '</div>'; }).join('');
 </script>
 </body>

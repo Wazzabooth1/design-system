@@ -2,6 +2,18 @@
    One accent per app category, set with <html data-category="media">.
    Dark is the default; light is a first-class theme (data-theme="light"). */
 
+/* Inter, self-hosted (variable weight 100–900). No Google Fonts needed, works offline on the LAN. */
+@font-face {
+  font-family: "Inter"; font-style: normal; font-weight: 100 900; font-display: swap;
+  src: url("../fonts/inter-latin.woff2") format("woff2-variations"), url("../fonts/inter-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter"; font-style: normal; font-weight: 100 900; font-display: swap;
+  src: url("../fonts/inter-latin-ext.woff2") format("woff2-variations"), url("../fonts/inter-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
 :root {
   color-scheme: dark;
 
@@ -52,6 +64,13 @@
   --ease: 150ms ease;
   --sidebar-w: 232px;
   --topbar-h: 56px;
+
+  /* Charts: categorical series in fixed order (never cycled), validated for colour-blind separation.
+     Series 7+ fold into "Other" or small multiples. Text on charts uses --text/--muted, never a series colour. */
+  --chart-1: #3987e5; --chart-2: #d95926; --chart-3: #199e70;
+  --chart-4: #c98500; --chart-5: #d55181; --chart-6: #9085e9;
+  --chart-grid: color-mix(in srgb, var(--text) 8%, transparent);
+  --chart-axis: var(--faint);
 }
 
 /* Category switch */
@@ -70,6 +89,8 @@
   --text: #16181d; --muted: #5c636e; --faint: #8b919b;
   --ok: #16a34a; --info: #2563eb; --warn: #ea580c; --bad: #dc2626;
   --shadow: 0 1px 2px rgb(16 24 40 / 0.06), 0 4px 16px rgb(16 24 40 / 0.06);
+    --chart-1: #2a78d6; --chart-2: #eb6834; --chart-3: #1baf7a;
+    --chart-4: #eda100; --chart-5: #e87ba4; --chart-6: #6250d6;
 }
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
@@ -79,5 +100,7 @@
     --text: #16181d; --muted: #5c636e; --faint: #8b919b;
     --ok: #16a34a; --info: #2563eb; --warn: #ea580c; --bad: #dc2626;
     --shadow: 0 1px 2px rgb(16 24 40 / 0.06), 0 4px 16px rgb(16 24 40 / 0.06);
+    --chart-1: #2a78d6; --chart-2: #eb6834; --chart-3: #1baf7a;
+    --chart-4: #eda100; --chart-5: #e87ba4; --chart-6: #6250d6;
   }
 }

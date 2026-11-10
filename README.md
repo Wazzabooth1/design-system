@@ -4,7 +4,15 @@ The shared look and feel for Warren's self-hosted apps, so they all look like on
 
 - **Spec:** [DESIGN-SPEC.md](DESIGN-SPEC.md) — principles, categories, components, checklist
 - **Preview:** open `preview.html` — every component, with category and theme switches
-- **Use it in an app:** `tools/ds-sync.sh /opt/<app>/static <category>`
+- **New app:** start from `templates/starter.html`, copy in `templates/CLAUDE.md`, add it to `apps.json`, then register it:
+
+  ```bash
+  curl -fsSL https://raw.githubusercontent.com/Wazzabooth1/design-system/main/tools/ds-sync.sh \
+    | bash -s -- --install /opt/<app>/static <category> <app-id>
+  ```
+
+  That syncs now and every evening at 19:43. Switchboard's **Design system** page shows who's behind.
+- **Icons:** `python3 tools/make-icons.py <app-id>` after adding an app to `apps.json`
 
 ## Category accents (match the links page)
 

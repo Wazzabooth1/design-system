@@ -1,0 +1,276 @@
+{
+  "_note": "The homelab app list, shared by the app switcher. Same apps and categories as the links page. Add an app here when it's built.",
+  "categories": [
+    {
+      "id": "media",
+      "name": "Media"
+    },
+    {
+      "id": "network",
+      "name": "Network & infrastructure"
+    },
+    {
+      "id": "home",
+      "name": "Home"
+    },
+    {
+      "id": "monitoring",
+      "name": "Monitoring"
+    },
+    {
+      "id": "dev",
+      "name": "Dev & automation"
+    },
+    {
+      "id": "tools",
+      "name": "Apps & tools"
+    }
+  ],
+  "apps": [
+    {
+      "id": "plex",
+      "name": "Plex",
+      "category": "media",
+      "icon": "play",
+      "url": "http://192.168.1.99:32400/web"
+    },
+    {
+      "id": "overseerr",
+      "name": "Overseerr",
+      "category": "media",
+      "icon": "search",
+      "url": "http://192.168.1.121:5055"
+    },
+    {
+      "id": "radarr",
+      "name": "Radarr",
+      "category": "media",
+      "icon": "film",
+      "url": "http://192.168.1.113:7878"
+    },
+    {
+      "id": "sonarr",
+      "name": "Sonarr",
+      "category": "media",
+      "icon": "tv",
+      "url": "http://192.168.1.114:8989"
+    },
+    {
+      "id": "bookhound",
+      "name": "BookHound",
+      "category": "media",
+      "icon": "headphones",
+      "url": "http://192.168.1.117:3500"
+    },
+    {
+      "id": "audiobookshelf",
+      "name": "Audiobookshelf",
+      "category": "media",
+      "icon": "book",
+      "url": "http://192.168.1.117:13378"
+    },
+    {
+      "id": "encore",
+      "name": "Encore",
+      "category": "media",
+      "icon": "music",
+      "url": "http://192.168.1.139:3346"
+    },
+    {
+      "id": "tubeyard",
+      "name": "TubeYard",
+      "category": "media",
+      "icon": "download",
+      "url": "http://192.168.1.131:8945"
+    },
+    {
+      "id": "immich",
+      "name": "Immich",
+      "category": "media",
+      "icon": "image",
+      "url": "http://192.168.1.105:2283"
+    },
+    {
+      "id": "tautulli",
+      "name": "Tautulli",
+      "category": "media",
+      "icon": "activity",
+      "url": "http://192.168.1.116:8181"
+    },
+    {
+      "id": "sabnzbd",
+      "name": "SABnzbd",
+      "category": "media",
+      "icon": "download",
+      "url": "http://192.168.1.111:8080"
+    },
+    {
+      "id": "qbittorrent",
+      "name": "qBittorrent",
+      "category": "media",
+      "icon": "download",
+      "url": "http://192.168.1.126:8090"
+    },
+    {
+      "id": "dispatcharr",
+      "name": "Dispatcharr",
+      "category": "media",
+      "icon": "tv",
+      "url": "http://192.168.1.137:9191"
+    },
+    {
+      "id": "switchboard",
+      "name": "Switchboard",
+      "category": "network",
+      "icon": "network",
+      "url": "http://192.168.1.125:8787"
+    },
+    {
+      "id": "proxmox",
+      "name": "Proxmox",
+      "category": "network",
+      "icon": "server",
+      "url": "https://192.168.1.66:8006"
+    },
+    {
+      "id": "unraid",
+      "name": "Tower",
+      "category": "network",
+      "icon": "disk",
+      "url": "http://192.168.1.99"
+    },
+    {
+      "id": "unifi",
+      "name": "UniFi",
+      "category": "network",
+      "icon": "network",
+      "url": "https://192.168.1.129:11443"
+    },
+    {
+      "id": "adguard",
+      "name": "AdGuard",
+      "category": "network",
+      "icon": "shield",
+      "url": "http://192.168.1.107"
+    },
+    {
+      "id": "adguard-kids",
+      "name": "AdGuard Kids",
+      "category": "network",
+      "icon": "shield",
+      "url": "http://192.168.1.108"
+    },
+    {
+      "id": "wud",
+      "name": "WUD",
+      "category": "network",
+      "icon": "refresh",
+      "url": "http://192.168.1.136:3000"
+    },
+    {
+      "id": "passbolt",
+      "name": "Passbolt",
+      "category": "network",
+      "icon": "key",
+      "url": "https://192.168.1.127"
+    },
+    {
+      "id": "cloudflare",
+      "name": "Cloudflare",
+      "category": "network",
+      "icon": "globe",
+      "url": "https://dash.cloudflare.com"
+    },
+    {
+      "id": "tailscale",
+      "name": "Tailscale",
+      "category": "network",
+      "icon": "globe",
+      "url": "https://login.tailscale.com/admin/machines"
+    },
+    {
+      "id": "homeassistant",
+      "name": "Home Assistant",
+      "category": "home",
+      "icon": "home",
+      "url": "http://192.168.1.123:8123"
+    },
+    {
+      "id": "servermonitor",
+      "name": "Server Monitor",
+      "category": "monitoring",
+      "icon": "activity",
+      "url": "http://192.168.1.112:3000"
+    },
+    {
+      "id": "uptimekuma",
+      "name": "Uptime Kuma",
+      "category": "monitoring",
+      "icon": "clock",
+      "url": "http://192.168.1.119:3001"
+    },
+    {
+      "id": "grafana",
+      "name": "Grafana",
+      "category": "monitoring",
+      "icon": "activity",
+      "url": "http://192.168.1.120:3000"
+    },
+    {
+      "id": "speedtest",
+      "name": "SpeedTest",
+      "category": "monitoring",
+      "icon": "activity",
+      "url": "http://192.168.1.115"
+    },
+    {
+      "id": "n8n",
+      "name": "n8n",
+      "category": "dev",
+      "icon": "refresh",
+      "url": "http://192.168.1.122:5678"
+    },
+    {
+      "id": "warrdash",
+      "name": "WarrDash",
+      "category": "tools",
+      "icon": "home",
+      "url": "http://192.168.1.100:3000"
+    },
+    {
+      "id": "winelist",
+      "name": "Wine Tracker",
+      "category": "tools",
+      "icon": "wine",
+      "url": "http://192.168.1.124:8420"
+    },
+    {
+      "id": "shoppinglist",
+      "name": "Shopping List",
+      "category": "tools",
+      "icon": "cart",
+      "url": "http://192.168.1.101:3000"
+    },
+    {
+      "id": "pufferpanel",
+      "name": "PufferPanel",
+      "category": "tools",
+      "icon": "gamepad",
+      "url": "http://192.168.1.104:8080"
+    },
+    {
+      "id": "firefly",
+      "name": "Firefly III",
+      "category": "tools",
+      "icon": "wallet",
+      "url": "http://192.168.1.121:8080"
+    },
+    {
+      "id": "tinypin",
+      "name": "TinyPin",
+      "category": "tools",
+      "icon": "pin",
+      "url": "http://192.168.1.121:3000"
+    }
+  ]
+}
