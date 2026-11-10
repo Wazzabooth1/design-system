@@ -38,9 +38,12 @@ async def ds_scan() -> list[dict]:
             if g["type"] == "lxc" and g.get("status") == "running":
                 jobs.append((sid, g))
 
+    gate = asyncio.Semaphore(4)   # the SSH link to Proxmox can't take 27 channels at once
+
     async def one(sid, g):
         try:
-            r = await guest_run(g["vmid"], DS_SCAN, sid, 30, "design system check")
+            async with gate:
+                r = await guest_run(g["vmid"], DS_SCAN, sid, 30, "design system check")
         except Exception:
             return []
         out = []
@@ -85,7 +88,7 @@ let DSG = null;
 async function renderDesign(force) {
   const m = $('#page');
   if (!DSG || force) {
-    m.innerHTML = pageHead('Design system', 'Checking which apps use it…') + '<div class="card"><div class="hint">Scanning running containers…</div></div>';
+    m.innerHTML = pageHead('Design system', 'Checking which apps use it…') + '<div class="card"><div class="hint">Scanning running containers. This takes about 30 seconds…</div></div>';
     try { DSG = await api('/api/design'); } catch (e) { m.innerHTML = pageHead('Design system', '') + `<div class="card"><div class="hint">Couldn't check: ${esc(e.message)}</div></div>`; return; }
   }
   const d = DSG, behind = d.apps.filter(a => !a.current);
