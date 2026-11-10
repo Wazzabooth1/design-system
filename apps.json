@@ -28,6 +28,13 @@
   ],
   "apps": [
     {
+      "id": "mediafinder",
+      "name": "Media finder",
+      "category": "media",
+      "icon": "search",
+      "url": "https://find.wbooth.co.uk"
+    },
+    {
       "id": "plex",
       "name": "Plex",
       "category": "media",
