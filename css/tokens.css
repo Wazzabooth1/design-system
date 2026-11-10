@@ -1,0 +1,83 @@
+/* Booth Homelab Design System: tokens
+   One accent per app category, set with <html data-category="media">.
+   Dark is the default; light is a first-class theme (data-theme="light"). */
+
+:root {
+  color-scheme: dark;
+
+  /* Neutrals (dark) */
+  --bg: #14161a;
+  --surface: #1e2127;
+  --surface-2: #262a31;
+  --surface-3: #2f343c;
+  --border: #2b2f37;
+  --border-strong: #3a3f49;
+  --text: #e6e6e6;
+  --muted: #9aa0a8;
+  --faint: #6b717b;
+
+  /* Status: meaning only, never decoration */
+  --ok: #4ade80;
+  --info: #60a5fa;
+  --warn: #fb923c;
+  --bad: #f87171;
+
+  /* Category accents (from the links page) */
+  --cat-media: #f5b82e;
+  --cat-network: #3b82f6;
+  --cat-home: #22c55e;
+  --cat-monitoring: #a855f7;
+  --cat-dev: #ec4899;
+  --cat-tools: #14b8a6;
+
+  --accent: var(--cat-media);
+  --accent-fg: #111317;
+  --accent-soft: color-mix(in srgb, var(--accent) 16%, transparent);
+  --accent-line: color-mix(in srgb, var(--accent) 45%, transparent);
+
+  /* Type */
+  --font: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.8125rem;
+  --fs-md: 0.9375rem;
+  --fs-lg: 1.125rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: 2rem;
+
+  /* Space, shape, depth, motion */
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+  --r-sm: 6px; --r: 10px; --r-lg: 14px; --r-pill: 999px;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 16px rgb(0 0 0 / 0.25);
+  --ease: 150ms ease;
+  --sidebar-w: 232px;
+  --topbar-h: 56px;
+}
+
+/* Category switch */
+[data-category="media"]      { --accent: var(--cat-media);      --accent-fg: #111317; }
+[data-category="network"]    { --accent: var(--cat-network);    --accent-fg: #ffffff; }
+[data-category="home"]       { --accent: var(--cat-home);       --accent-fg: #0b1a10; }
+[data-category="monitoring"] { --accent: var(--cat-monitoring); --accent-fg: #ffffff; }
+[data-category="dev"]        { --accent: var(--cat-dev);        --accent-fg: #ffffff; }
+[data-category="tools"]      { --accent: var(--cat-tools);      --accent-fg: #071a18; }
+
+/* Light theme: explicit, or follow the device unless dark is forced */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f4f5f7; --surface: #ffffff; --surface-2: #f0f1f4; --surface-3: #e6e8ec;
+  --border: #e2e4e9; --border-strong: #cfd3da;
+  --text: #16181d; --muted: #5c636e; --faint: #8b919b;
+  --ok: #16a34a; --info: #2563eb; --warn: #ea580c; --bad: #dc2626;
+  --shadow: 0 1px 2px rgb(16 24 40 / 0.06), 0 4px 16px rgb(16 24 40 / 0.06);
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+    --bg: #f4f5f7; --surface: #ffffff; --surface-2: #f0f1f4; --surface-3: #e6e8ec;
+    --border: #e2e4e9; --border-strong: #cfd3da;
+    --text: #16181d; --muted: #5c636e; --faint: #8b919b;
+    --ok: #16a34a; --info: #2563eb; --warn: #ea580c; --bad: #dc2626;
+    --shadow: 0 1px 2px rgb(16 24 40 / 0.06), 0 4px 16px rgb(16 24 40 / 0.06);
+  }
+}
