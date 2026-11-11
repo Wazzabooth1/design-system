@@ -1,5 +1,5 @@
 {
-  "_note": "The homelab app list, shared by the app switcher. Same apps and categories as the links page. Add an app here when it's built.",
+  "_note": "The homelab app list. Feeds the app switcher in every app and the links page (http://192.168.1.138), which syncs it nightly. Add an app here when it's built and it appears on both.",
   "categories": [
     {
       "id": "media",
@@ -54,6 +54,13 @@
       "category": "media",
       "icon": "film",
       "url": "http://192.168.1.113:7878"
+    },
+    {
+      "id": "radarr-docker",
+      "name": "Radarr (Docker)",
+      "category": "media",
+      "icon": "film",
+      "url": "http://192.168.1.121:7878"
     },
     {
       "id": "sonarr",
@@ -182,6 +189,13 @@
       "url": "http://192.168.1.136:3000"
     },
     {
+      "id": "portainer",
+      "name": "Portainer",
+      "category": "network",
+      "icon": "grid",
+      "url": "https://192.168.1.121:9443"
+    },
+    {
       "id": "passbolt",
       "name": "Passbolt",
       "category": "network",
@@ -208,20 +222,6 @@
       "category": "home",
       "icon": "home",
       "url": "http://192.168.1.123:8123"
-    },
-    {
-      "id": "servermonitor",
-      "name": "Server Monitor",
-      "category": "monitoring",
-      "icon": "activity",
-      "url": "http://192.168.1.112:3000"
-    },
-    {
-      "id": "uptimekuma",
-      "name": "Uptime Kuma",
-      "category": "monitoring",
-      "icon": "clock",
-      "url": "http://192.168.1.119:3001"
     },
     {
       "id": "grafana",
@@ -280,11 +280,25 @@
       "url": "http://192.168.1.121:8080"
     },
     {
+      "id": "firefly-importer",
+      "name": "Firefly III importer",
+      "category": "tools",
+      "icon": "download",
+      "url": "http://192.168.1.121:8081"
+    },
+    {
       "id": "tinypin",
       "name": "TinyPin",
       "category": "tools",
       "icon": "pin",
       "url": "http://192.168.1.121:3000"
+    },
+    {
+      "id": "links",
+      "name": "Links",
+      "category": "tools",
+      "icon": "list",
+      "url": "http://192.168.1.138"
     }
   ]
 }

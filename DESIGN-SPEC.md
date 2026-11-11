@@ -24,7 +24,7 @@ The shared look and feel for Warren's self-hosted apps. Every new app follows th
 | `js/chart-palette.js` | `dsChart()`: chart colours read live from the tokens, for any charting library. |
 | `glyphs/icons.svg` | All glyphs as one sprite. |
 | `fonts/` | Inter (variable weight). Apps never load Google Fonts. |
-| `apps.json` | Every homelab app: name, URL, category, glyph. Feeds the app switcher and the icon generator. |
+| `apps.json` | Every homelab app: name, URL, category, glyph. Feeds the app switcher, the links page and the icon generator. |
 | `brand/<app>/` | Each app's home screen icons and web app manifest (made by `tools/make-icons.py`). |
 | `templates/` | `starter.html` (a new app's first page, everything wired up) and `CLAUDE.md` (drop into a new app's repo). |
 | `preview.html` | Every component on one page, with category, theme and mode switches. |
@@ -104,7 +104,7 @@ Stroke icons on a 24px grid, `currentColor`. Sizes: `.icon.sm` 14px, default 18p
 
 ## 8. App switcher
 
-Put `<div data-ds-switcher></div>` in the top bar and `data-app="<app id>"` on `<html>`. It reads `apps.json` (synced into `ds/`) and shows every app grouped by category, with the current one highlighted. When an app is built, add it to `apps.json` and run `python3 tools/make-icons.py <app id>`.
+Put `<div data-ds-switcher></div>` in the top bar and `data-app="<app id>"` on `<html>`. It reads `apps.json` (synced into `ds/`) and shows every app grouped by category, with the current one highlighted. When an app is built, add it to `apps.json` and run `python3 tools/make-icons.py <app id>`. The links page (http://192.168.1.138, LXC 138) is built from the same file, so the app shows up there too after the nightly sync (or run `ds-sync --all` on LXC 138 to see it straight away). Remove an app from `apps.json` when it's retired.
 
 ## 9. Wall and TV mode
 
@@ -131,7 +131,7 @@ Then start from `templates/starter.html` and copy `templates/CLAUDE.md` into the
 
 ## 13. Checklist before shipping a screen
 
-- [ ] Registered with `ds-sync --install`, and listed in `apps.json`
+- [ ] Registered with `ds-sync --install`, and listed in `apps.json` (which also puts it on the links page)
 - [ ] `data-category` and `data-app` set on `<html>`; app switcher in the top bar
 - [ ] Looks right in dark **and** light
 - [ ] Works at 375px with no sideways scroll; bottom nav shows on phones
