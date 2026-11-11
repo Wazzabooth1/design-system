@@ -65,9 +65,32 @@ The app icon and name tell apps apart within a category. The colours match the l
 
 Mark the current page with `aria-current="page"` on both the sidebar link and the bottom-nav link.
 
+### Side panel (live activity)
+
+Anything that keeps updating while you use the rest of the app (a downloads queue, what's playing on the wall panel, a running job) lives in the **side panel**, not in the page: right-hand side, 360px, sticky under the top bar with its own scroll. Media finder's Downloads panel is the reference.
+
+```html
+<div class="main">
+  <header class="topbar">…</header>
+  <div class="workspace">
+    <main class="content">…</main>
+    <aside class="side-panel" aria-label="Downloads">
+      <div class="side-panel-head"><h2><svg class="icon">…</svg>Downloads</h2></div>
+      <div><div class="side-group-title">Now <span>2</span></div>…</div>
+    </aside>
+  </div>
+  <nav class="bottom-nav">…</nav>
+</div>
+```
+
+- Shown from 1200px wide. Narrower, the panel hides and the same content moves to its own page (a bottom-nav item) or the top of the main page, wrapped in `.narrow-only` so it never appears twice.
+- One side panel per app. Group its contents with `.side-group-title`; controls for what's in it (pause, stop, cancel) sit right there with it.
+- The page's main job never goes in the side panel. It's for watching and nudging things that are already happening.
+- Hidden in wall and TV mode; `.narrow-only` copies show instead.
+
 ## 6. Components
 
-Card (`.card`, `.card.tight`, `.card.link`), stat tile (`.stat`), buttons (`.btn`, `.btn-primary`, `.btn-ghost`, `.btn-danger`, `.btn-sm`, `.btn-icon`), badges (`.badge.ok|info|warn|bad|accent`), forms (`.field`, `.input`, `.select`, `.textarea`, `.search`, `.switch`), tabs (`.tabs` + `.tab[aria-selected]`), table (`.table-wrap` + `.table`), progress, banner, empty state, media tiles (`.media-grid` + `.media-tile` + `.media-art`, add `.square` for albums and audiobooks), list rows, toasts, skeletons. See `preview.html` for markup.
+Side panel (`.workspace` + `.side-panel`, see section 5), card (`.card`, `.card.tight`, `.card.link`), stat tile (`.stat`), buttons (`.btn`, `.btn-primary`, `.btn-ghost`, `.btn-danger`, `.btn-sm`, `.btn-icon`), badges (`.badge.ok|info|warn|bad|accent`), forms (`.field`, `.input`, `.select`, `.textarea`, `.search`, `.switch`), tabs (`.tabs` + `.tab[aria-selected]`), table (`.table-wrap` + `.table`), progress, banner, empty state, media tiles (`.media-grid` + `.media-tile` + `.media-art`, add `.square` for albums and audiobooks), list rows, toasts, skeletons. See `preview.html` for markup.
 
 Only one `.btn-primary` per view: the main thing the page is for.
 
@@ -116,5 +139,6 @@ Then start from `templates/starter.html` and copy `templates/CLAUDE.md` into the
 - [ ] Only tokens, no hard-coded colours, spacing or fonts
 - [ ] One primary button per view
 - [ ] Status shown with badges, not coloured text
+- [ ] Live activity (queues, now playing) is in the side panel, with a `.narrow-only` fallback under 1200px
 - [ ] Empty, loading and error states all exist
 - [ ] Words are UK English, sentence case, and say what happened
