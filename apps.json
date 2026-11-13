@@ -238,6 +238,13 @@
       "url": "http://192.168.1.115"
     },
     {
+      "id": "pcstats",
+      "name": "PC stats",
+      "category": "monitoring",
+      "icon": "cpu",
+      "url": "http://192.168.1.123:8123/local/pcstats.html"
+    },
+    {
       "id": "n8n",
       "name": "n8n",
       "category": "dev",
