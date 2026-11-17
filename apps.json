@@ -70,6 +70,20 @@
       "url": "http://192.168.1.114:8989"
     },
     {
+      "id": "radarr4k",
+      "name": "Radarr 4K",
+      "category": "media",
+      "icon": "film",
+      "url": "http://192.168.1.143:7878"
+    },
+    {
+      "id": "prowlarr",
+      "name": "Prowlarr",
+      "category": "media",
+      "icon": "search",
+      "url": "http://192.168.1.142:9696"
+    },
+    {
       "id": "bookhound",
       "name": "BookHound",
       "category": "media",
