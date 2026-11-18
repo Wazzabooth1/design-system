@@ -126,13 +126,6 @@
       "url": "http://192.168.1.105:2283"
     },
     {
-      "id": "tautulli",
-      "name": "Tautulli",
-      "category": "media",
-      "icon": "activity",
-      "url": "http://192.168.1.116:8181"
-    },
-    {
       "id": "sabnzbd",
       "name": "SABnzbd",
       "category": "media",
