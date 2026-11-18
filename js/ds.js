@@ -9,7 +9,8 @@
    Mode:     dsMode.get() / .set('tv'|'wall'|null)   also ?mode=tv or ?mode=wall in the URL (remembered)
    Toasts:   dsToast('Saved', 'ok' | 'info' | 'warn' | 'bad')
    Icons:    dsIcon('search', 'lg')  -> <svg> string
-   Switcher: <div data-ds-switcher></div> in the top bar; mark this app with <html data-app="bookhound">. */
+   Switcher: <div data-ds-switcher></div> in the top bar; mark this app with <html data-app="bookhound">.
+             Single-page apps that render the top bar after load call dsSwitchers() once it's in the DOM. */
 (function () {
   var root = document.documentElement;
   var me = document.currentScript && document.currentScript.src;
@@ -106,6 +107,8 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initSwitchers);
   else initSwitchers();
+  // Apps that draw the top bar themselves (React, Vue) call this after mounting it.
+  window.dsSwitchers = initSwitchers;
 
   window.DS_BASE = BASE;
 })();

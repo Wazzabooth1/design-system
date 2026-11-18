@@ -261,7 +261,7 @@
     {
       "id": "warrdash",
       "name": "WarrDash",
-      "category": "tools",
+      "category": "network",
       "icon": "home",
       "url": "http://192.168.1.100:3000"
     },
