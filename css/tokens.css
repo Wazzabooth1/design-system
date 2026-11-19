@@ -59,7 +59,7 @@
 
   /* Space, shape, depth, motion */
   --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
-  --r-sm: 6px; --r: 10px; --r-lg: 15px; --r-pill: 999px;
+  --r-sm: 6px; --r: 10px; --r-lg: 14px; --r-pill: 999px;
   --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 16px rgb(0 0 0 / 0.25);
   --ease: 150ms ease;
   --sidebar-w: 232px;
