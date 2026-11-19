@@ -106,6 +106,17 @@ Stroke icons on a 24px grid, `currentColor`. Sizes: `.icon.sm` 14px, default 18p
 
 Put `<div data-ds-switcher></div>` in the top bar and `data-app="<app id>"` on `<html>`. It reads `apps.json` (synced into `ds/`) and shows every app grouped by category, with the current one highlighted. When an app is built, add it to `apps.json` and run `python3 tools/make-icons.py <app id>`. The links page (http://192.168.1.138, LXC 138) is built from the same file, so the app shows up there too after the nightly sync (or run `ds-sync --all` on LXC 138 to see it straight away). Remove an app from `apps.json` when it's retired.
 
+### Shared layout (Design studio)
+
+Where the common controls sit is decided once, for every app, in the **Design studio** (Switchboard → Design studio), and stored as `--ds-*` values in `tokens.css`. `ds.js` reads them and moves things into place, so apps never hard-code it:
+
+- `--ds-switcher`: app switcher in the top bar (right or left), at the bottom of the sidebar, or off.
+- `--ds-settings`: Settings in the menu, or pinned to the bottom of the sidebar.
+- `--ds-settings-mobile`: Settings in the phone bottom bar, or a gear at the top right.
+- `--ds-theme-toggle`, `--ds-nav-labels`: show or hide.
+
+For this to work an app only has to follow the shell in section 5: the switcher `<div data-ds-switcher>` in `.topbar`, and the Settings link marked with `href` containing `settings` or `data-nav="settings"`. Don't restyle or move these yourself.
+
 ## 9. Wall and TV mode
 
 `<html data-mode="wall">` for touch panels (iPad frame, magic mirror) and `data-mode="tv"` for across-the-room screens (the LG TV dashboard). Or open any app with `?mode=wall` / `?mode=tv` (remembered on that device; `?mode=normal` clears it). Modes scale the whole type and spacing scale, hide the sidebar and bottom nav, grow buttons to 56px and give TV a heavy focus ring for the remote. Use `.tile-grid` + `button.tile[aria-pressed]` for big square controls (lights, scenes, appliances).

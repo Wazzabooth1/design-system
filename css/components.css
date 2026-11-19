@@ -334,3 +334,19 @@ code, .mono { font-family: var(--mono); font-size: 0.9em; }
 :root[data-mode] .search .icon { left: 16px; }
 :root[data-mode] .search .input { padding-left: 54px; }
 :root[data-mode] .table th, :root[data-mode] .table td { padding: var(--s3) var(--s4); }
+
+/* ---------- Shared layout options (Design studio; ds.js sets data-layout-* on <html>) ---------- */
+.sidebar-foot { margin-top: auto; display: flex; flex-direction: column; gap: var(--s1); padding-top: var(--s3); border-top: 1px solid var(--border); }
+.sidebar-foot .switcher { align-self: flex-start; }
+.sidebar .switcher-panel { left: 0; right: auto; top: auto; bottom: calc(100% + 8px); }
+@media (min-width: 761px) { [data-layout-switcher="sidebar"] .topbar [data-ds-switcher] { display: none; } }
+[data-layout-switcher="off"] [data-ds-switcher] { display: none !important; }
+[data-layout-theme-toggle="hide"] [onclick*="dsTheme"],
+[data-layout-theme-toggle="hide"] [aria-label="Switch theme"],
+[data-layout-theme-toggle="hide"] [data-ds-theme-toggle] { display: none !important; }
+.ds-gear { display: none; }
+@media (max-width: 760px) {
+  [data-layout-settings-mobile="top-right"] .ds-gear { display: inline-flex; }
+  [data-layout-settings-mobile="top-right"] .bottom-nav .ds-settings-link { display: none; }
+  [data-layout-nav-labels="hide"] .bottom-nav a { font-size: 0; gap: 0; padding: 10px 0; }
+}

@@ -65,6 +65,14 @@
   --sidebar-w: 232px;
   --topbar-h: 56px;
 
+  /* Shared layout: where the common controls sit in every app. Set in the Design studio; ds.js reads these.
+     Values are plain words (no quotes). */
+  --ds-switcher: top-right;         /* top-right | top-left | sidebar | off */
+  --ds-settings: menu;              /* menu | sidebar-bottom (desktop: Settings pinned to the bottom of the sidebar) */
+  --ds-settings-mobile: bottom-bar; /* bottom-bar | top-right (phones: Settings as a gear in the top bar) */
+  --ds-theme-toggle: show;          /* show | hide */
+  --ds-nav-labels: show;            /* show | hide (phones: words under the bottom-bar icons) */
+
   /* Charts: categorical series in fixed order (never cycled), validated for colour-blind separation.
      Series 7+ fold into "Other" or small multiples. Text on charts uses --text/--muted, never a series colour. */
   --chart-1: #3987e5; --chart-2: #d95926; --chart-3: #199e70;

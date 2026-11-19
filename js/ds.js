@@ -97,18 +97,69 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) { open(false); btn.focus(); } });
   }
 
+  // ---------- Shared layout (set in the Design studio, stored as --ds-* in tokens.css) ----------
+  // Moves the common controls (app switcher, Settings) to the same place in every app.
+  // Safe to run again (the studio preview does): everything is put back first.
+  var LAYOUT = { switcher: ['top-right', 'top-left', 'sidebar', 'off'], settings: ['menu', 'sidebar-bottom'],
+    'settings-mobile': ['bottom-bar', 'top-right'], 'theme-toggle': ['show', 'hide'], 'nav-labels': ['show', 'hide'] };
+  var appsData = null;
+  function layoutValue(k) {
+    var v = getComputedStyle(root).getPropertyValue('--ds-' + k).trim().replace(/["']/g, '');
+    return LAYOUT[k].indexOf(v) >= 0 ? v : LAYOUT[k][0];
+  }
+  function isSettings(a) { return /settings/i.test(a.getAttribute('href') || '') || a.getAttribute('data-nav') === 'settings'; }
+  function move(el, parent, before) {
+    if (!el.__dsHome) el.__dsHome = { p: el.parentNode, n: el.nextSibling };
+    el.setAttribute('data-ds-moved', ''); parent.insertBefore(el, before || null);
+  }
+  function applyLayout() {
+    var cfg = {};
+    Object.keys(LAYOUT).forEach(function (k) { cfg[k] = layoutValue(k); root.setAttribute('data-layout-' + k, cfg[k]); });
+    document.querySelectorAll('[data-ds-moved]').forEach(function (el) {
+      var h = el.__dsHome; el.removeAttribute('data-ds-moved');
+      if (h && h.p) h.p.insertBefore(el, h.n && h.n.parentNode === h.p ? h.n : null);
+    });
+    document.querySelectorAll('.ds-clone').forEach(function (el) { el.remove(); });
+    var side = document.querySelector('.sidebar'), top = document.querySelector('.topbar');
+    var foot = null;
+    function footer() {
+      if (!foot && side) { foot = document.createElement('div'); foot.className = 'sidebar-foot ds-clone'; side.appendChild(foot); }
+      return foot;
+    }
+    if (side && cfg.settings === 'sidebar-bottom') {
+      var link = [].filter.call(side.querySelectorAll('a.nav-link'), isSettings)[0];
+      if (link) move(link, footer());
+    }
+    var host = top && top.querySelector('[data-ds-switcher]:not(.ds-clone)');
+    if (host && cfg.switcher === 'top-left') move(host, top, top.firstChild);
+    if (host && cfg.switcher === 'sidebar' && side) {
+      var c = document.createElement('div'); c.setAttribute('data-ds-switcher', ''); c.className = 'ds-clone ds-side-switcher';
+      footer().appendChild(c); if (appsData) renderSwitcher(c, appsData);
+    }
+    var bl = [].filter.call(document.querySelectorAll('.bottom-nav a'), isSettings)[0];
+    if (bl) bl.classList.add('ds-settings-link');
+    if (top && bl && cfg['settings-mobile'] === 'top-right') {
+      var g = document.createElement('a'); g.href = bl.getAttribute('href'); g.className = 'btn btn-ghost btn-icon ds-clone ds-gear';
+      g.setAttribute('aria-label', 'Settings'); if (bl.getAttribute('data-nav')) g.setAttribute('data-nav', bl.getAttribute('data-nav'));
+      if (bl.getAttribute('onclick')) g.setAttribute('onclick', bl.getAttribute('onclick'));
+      g.innerHTML = dsIcon('settings'); top.appendChild(g);
+    }
+  }
+  window.dsLayout = applyLayout;
+
   function initSwitchers() {
     var hosts = document.querySelectorAll('[data-ds-switcher]');
     if (!hosts.length) return;
-    var go = function (data) { hosts.forEach(function (h) { renderSwitcher(h, data); }); };
+    var go = function (data) { appsData = data; hosts.forEach(function (h) { renderSwitcher(h, data); }); };
     if (window.DS_APPS) return go(Array.isArray(window.DS_APPS) ? { categories: [], apps: window.DS_APPS } : window.DS_APPS);
     fetch(BASE + '/apps.json', { cache: 'no-cache' }).then(function (r) { return r.json(); }).then(go)
       .catch(function () { hosts.forEach(function (h) { h.hidden = true; }); });
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initSwitchers);
-  else initSwitchers();
+  function boot() { try { applyLayout(); } catch (e) {} initSwitchers(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
   // Apps that draw the top bar themselves (React, Vue) call this after mounting it.
-  window.dsSwitchers = initSwitchers;
+  window.dsSwitchers = boot;
 
   window.DS_BASE = BASE;
 })();
