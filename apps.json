@@ -287,20 +287,6 @@
       "url": "http://192.168.1.104:8080"
     },
     {
-      "id": "firefly",
-      "name": "Firefly III",
-      "category": "tools",
-      "icon": "wallet",
-      "url": "http://192.168.1.121:8080"
-    },
-    {
-      "id": "firefly-importer",
-      "name": "Firefly III importer",
-      "category": "tools",
-      "icon": "download",
-      "url": "http://192.168.1.121:8081"
-    },
-    {
       "id": "tinypin",
       "name": "TinyPin",
       "category": "tools",
