@@ -12,6 +12,8 @@
 # Copies css/, js/, glyphs/, fonts/, apps.json and the app's own icons (brand/<app-id>/) into
 # <static dir>/ds/. Never edit files under ds/ in an app: change the design-system repo instead.
 # The nightly job runs at 19:43 and logs to /var/log/ds-sync.log. Switchboard's Design page reads --status.
+# If the app lives in a git repo, the ?v= cache-bust stamp is committed (and pushed if it can) automatically;
+# pages with uncommitted edits are stamped but left for you to commit. --all also updates this script itself.
 set -euo pipefail
 
 REPO="${DS_REPO:-https://github.com/Wazzabooth1/design-system.git}"
@@ -49,8 +51,28 @@ sync_one() {  # dest category app
   # and browsers fetch the new files straight after a sync instead of serving a cached copy.
   local v; v=$(cut -c1-7 "$dest/ds/VERSION")
   local roots=("$dest"); [ -d "$(dirname "$dest")/templates" ] && roots+=("$(dirname "$dest")/templates")  # Flask-style apps
-  find "${roots[@]}" -maxdepth 3 -name '*.html' -not -path "$dest/ds/*" -print0 2>/dev/null |
-    xargs -0 -r sed -i -E "s#(/ds/[A-Za-z0-9_./-]+\.(css|js))(\?v=[A-Za-z0-9]*)?#\1?v=$v#g"
+  local html=() clean=() f
+  while IFS= read -r -d '' f; do html+=("$f"); done < <(find "${roots[@]}" -maxdepth 3 -name '*.html' -not -path "$dest/ds/*" -print0 2>/dev/null)
+  local repo=""; repo=$(git -C "$dest" rev-parse --show-toplevel 2>/dev/null || true)
+  if [ -n "$repo" ]; then  # remember which pages had no uncommitted edits before stamping
+    for f in "${html[@]}"; do
+      git -C "$repo" ls-files --error-unmatch -- "$f" >/dev/null 2>&1 &&
+        git -C "$repo" diff --quiet -- "$f" && git -C "$repo" diff --cached --quiet -- "$f" && clean+=("$f")
+    done
+  fi
+  [ ${#html[@]} -gt 0 ] && sed -i -E "s#(/ds/[A-Za-z0-9_./-]+\.(css|js))(\?v=[A-Za-z0-9]*)?#\1?v=$v#g" "${html[@]}"
+  # Auto-commit the stamp so the app's repo stays clean. Only pages that were clean before are
+  # committed (never anyone's work in progress); push is best-effort.
+  if [ ${#clean[@]} -gt 0 ]; then
+    local changed=()
+    for f in "${clean[@]}"; do git -C "$repo" diff --quiet -- "$f" || changed+=("$f"); done
+    if [ ${#changed[@]} -gt 0 ]; then
+      git -C "$repo" -c user.name="${DS_GIT_NAME:-ds-sync}" -c user.email="${DS_GIT_EMAIL:-ds-sync@localhost}" \
+        commit -q -m "Design system: bump asset version to $v" -- "${changed[@]}" &&
+        { timeout 60 git -C "$repo" push -q 2>/dev/null && echo "  committed + pushed version stamp in $repo" ||
+          echo "  committed version stamp in $repo (push failed, will go with the next push)"; }
+    fi
+  fi
   echo "$(date '+%F %T') ${app:-app} -> $dest/ds ($(cut -c1-7 "$dest/ds/VERSION"))"
 }
 
@@ -72,6 +94,10 @@ case "${1:-}" in
     shopt -s nullglob; confs=("$CONF_DIR"/*.conf)
     [ ${#confs[@]} -eq 0 ] && { echo "no apps registered"; exit 0; }
     fetch
+    # keep the installed copy of this script current, then carry on with the new one
+    if [ -z "${DS_REEXEC:-}" ] && [ -f "$CACHE/tools/ds-sync.sh" ] && ! cmp -s "$CACHE/tools/ds-sync.sh" "$BIN"; then
+      install -m 755 "$CACHE/tools/ds-sync.sh" "$BIN"; DS_REEXEC=1 exec "$BIN" --all
+    fi
     for c in "${confs[@]}"; do ( . "$c"; sync_one "$DEST" "$CATEGORY" "$APP" ) || echo "$(date '+%F %T') failed: $c"; done
     ;;
   --status)
