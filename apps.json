@@ -299,6 +299,13 @@
       "category": "tools",
       "icon": "list",
       "url": "http://192.168.1.138"
+    },
+    {
+      "id": "roadbook",
+      "name": "Roadbook",
+      "category": "tools",
+      "icon": "route",
+      "url": "http://192.168.1.102:8460"
     }
   ]
 }
