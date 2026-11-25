@@ -306,6 +306,13 @@
       "category": "tools",
       "icon": "route",
       "url": "http://192.168.1.102:8460"
+    },
+    {
+      "id": "gymlog",
+      "name": "Gym log",
+      "category": "tools",
+      "icon": "dumbbell",
+      "url": "https://gym.wbooth.co.uk"
     }
   ]
 }
