@@ -266,6 +266,13 @@
       "url": "http://192.168.1.100:3000"
     },
     {
+      "id": "speedcheck",
+      "name": "Speedcheck",
+      "category": "network",
+      "icon": "activity",
+      "url": "http://192.168.1.115/"
+    },
+    {
       "id": "winelist",
       "name": "Wine Tracker",
       "category": "tools",
